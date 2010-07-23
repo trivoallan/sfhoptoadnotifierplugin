@@ -29,7 +29,7 @@ class sfErrorNotNotifierPluginConfiguration extends sfPluginConfiguration
     public function configure()
     {
         // Load PEAR dependencies
-        require 'HTTP/Request2.php';
+        require_once('HTTP/Request2.php');
 
         // Load php-errornot client library
         require_once($this->getRootDir().'/lib/vendor/php-errornot/errornot.php');
