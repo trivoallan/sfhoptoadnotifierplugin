@@ -26,25 +26,26 @@ class sfErrorNotNotifierPluginConfiguration extends sfPluginConfiguration
     /**
      * @see sfPluginConfiguration
      */
-    public function initialize()
+    public function configure()
     {
         // Load php-errornot client library
-        require($this->getRootDir().'/lib/vendor/php-errornot/errornot.php');
+        require_once($this->getRootDir().'/lib/vendor/php-errornot/errornot.php');
 
+        // TODO : find out why config key are not set on cli
         // Get API key
-        $api_key = sfConfig::get('app_sf_errornot_notifier_plugin_api_key', false);
+        $api_key = sfConfig::get('app_errornot_notifier_plugin_api_key', false);
         // Throw an exception if no key is defined
         if (false === $api_key)
         {
-            throw new InvalidArgumentException('ErrorNot API key is not defined');
+//            throw new InvalidArgumentException('ErrorNot API key is not defined');
         }
 
         // Get ErrorNot server URL
-        $url = sfConfig::get('app_sf_errornot_notifier_plugin_url', false);
+        $url = sfConfig::get('app_errornot_notifier_plugin_url', false);
         // Throw an exception if no key is defined
         if (false === $url)
         {
-            throw new InvalidArgumentException('ErrorNot server URL is not defined');
+//            throw new InvalidArgumentException('ErrorNot server URL is not defined');
         }
 
         // Instanciate the service
@@ -63,7 +64,7 @@ class sfErrorNotNotifierPluginConfiguration extends sfPluginConfiguration
         );
     }
 
-    public function configure()
+    public function initialize()
     {
         // in this method, config (app.yml) is not already loaded, so we must not initialize the service.
     }
