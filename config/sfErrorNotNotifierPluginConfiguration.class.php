@@ -32,25 +32,28 @@ class sfErrorNotNotifierPluginConfiguration extends sfPluginConfiguration
      */
     public function initialize()
     {
-        // Load PEAR dependencies
-        include_once('HTTP/Request2.php');
+        if (sfConfig::get('app_errornot_notifier_plugin_enabled'))
+        {
+            // Load PEAR dependencies
+            include_once('HTTP/Request2.php');
 
-        // Load php-errornot client library
-        include_once($this->getRootDir().'/lib/vendor/php-errornot/errornot.php');
+            // Load php-errornot client library
+            include_once($this->getRootDir().'/lib/vendor/php-errornot/errornot.php');
 
-        // Instanciate the service
-        $this->client = new Services_ErrorNot(sfConfig::get('app_errornot_notifier_plugin_url'), sfConfig::get('app_errornot_notifier_plugin_api_key'));
+            // Instanciate the service
+            $this->client = new Services_ErrorNot(sfConfig::get('app_errornot_notifier_plugin_url'), sfConfig::get('app_errornot_notifier_plugin_api_key'));
 
-        // Handle exceptions
-        $this->dispatcher->connect(
-            'application.throw_exception',
-            array('sfErrorNotNotifier', 'handleExceptionEvent')
-        );
+            // Handle exceptions
+            $this->dispatcher->connect(
+                'application.throw_exception',
+                array('sfErrorNotNotifier', 'handleExceptionEvent')
+            );
 
-        // Handle log errors
-        $this->dispatcher->connect(
-            'application.log',
-            array('sfErrorNotNotifier', 'handleLogEvent')
-        );
+            // Handle log errors
+            $this->dispatcher->connect(
+                'application.log',
+                array('sfErrorNotNotifier', 'handleLogEvent')
+            );
+        }
     }
 }
